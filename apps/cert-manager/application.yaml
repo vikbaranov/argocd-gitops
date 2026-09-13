@@ -1,0 +1,7 @@
+appName: cert-manager
+appChart: cert-manager
+appRepoURL: https://charts.jetstack.io
+appTargetRevision: 1.21.1
+appNamespace: cert-manager
+appProject: platform
+appSyncWave: "0"

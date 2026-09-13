@@ -1,0 +1,7 @@
+appName: monitoring
+appChart: kube-prometheus-stack
+appRepoURL: https://prometheus-community.github.io/helm-charts
+appTargetRevision: 89.2.2
+appNamespace: monitoring
+appProject: platform
+appSyncWave: "2"

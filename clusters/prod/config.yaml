@@ -1,0 +1,3 @@
+clusterName: prod
+clusterEnvironment: prod
+clusterServer: https://production-cluster.example.com

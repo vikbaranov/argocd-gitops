@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/vikbaranov/argocd-gitops.git
+              revision: main
+              files:
+                - path: apps/*/application.yaml
+          - git:
+              repoURL: https://github.com/vikbaranov/argocd-gitops.git
+              revision: main
+              files:
+                - path: clusters/*/config.yaml
+  template:
+    metadata:
+      name: '{{appName}}-{{clusterName}}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{appSyncWave}}'
+    spec:
+      project: '{{appProject}}'
+      sources:
+        - repoURL: '{{appRepoURL}}'
+          chart: '{{appChart}}'
+          targetRevision: '{{appTargetRevision}}'
+          helm:
+            valueFiles:
+              - $values/apps/{{appName}}/values.yaml
+              - $values/apps/{{appName}}/values-{{clusterEnvironment}}.yaml
+        - repoURL: https://github.com/vikbaranov/argocd-gitops.git
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{clusterServer}}'
+        namespace: '{{appNamespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+      ignoreDifferences:
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+            - /spec/replicas

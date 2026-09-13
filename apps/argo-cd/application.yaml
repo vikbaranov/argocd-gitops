@@ -1,0 +1,7 @@
+appName: argo-cd
+appChart: argo-cd
+appRepoURL: https://argoproj.github.io/argo-helm
+appTargetRevision: 7.7.11
+appNamespace: argocd
+appProject: platform
+appSyncWave: "3"

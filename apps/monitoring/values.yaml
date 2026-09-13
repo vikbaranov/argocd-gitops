@@ -1,0 +1,9 @@
+grafana:
+  enabled: true
+  adminPassword: admin
+
+prometheus:
+  enabled: true
+
+alertmanager:
+  enabled: false

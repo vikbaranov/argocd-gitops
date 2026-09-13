@@ -1,0 +1,7 @@
+appName: ingress-nginx
+appChart: ingress-nginx
+appRepoURL: https://kubernetes.github.io/ingress-nginx
+appTargetRevision: 4.15.1
+appNamespace: ingress-nginx
+appProject: platform
+appSyncWave: "1"
