@@ -1,0 +1,11 @@
+{
+  "appName": "httpbin",
+  "userGivenName": "httpbin",
+  "destNamespace": "default",
+  "destServer": "https://kubernetes.default.svc",
+  "srcPath": "apps/httpbin/overlays/production",
+  "srcRepoURL": "https://github.com/vikbaranov/argocd-gitops.git",
+  "srcTargetRevision": "",
+  "labels": null,
+  "annotations": null
+}
