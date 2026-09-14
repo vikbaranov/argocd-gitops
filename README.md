@@ -28,22 +28,31 @@ Argo CD **App of AppSets** repository: a single `root` Application bootstraps an
 
 ## How it works
 
-1. **Bootstrap (once, manual):**
+1. **Install Argo CD (once, manual):** the `Application` CRD only exists
+   after Argo CD is installed.
+
+   ```bash
+   kubectl create namespace argocd
+   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side --force-conflicts
+   kubectl -n argocd wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server --timeout=300s
+   ```
+
+2. **Bootstrap (once, manual):**
 
    ```bash
    kubectl apply -f bootstrap/root-app.yaml
    ```
 
-2. **App of Apps** — `root` (a plain directory `Application`) syncs
+3. **App of Apps** — `root` (a plain directory `Application`) syncs
    `bootstrap/apps/`, creating the `platform` `AppProject` and the `platform`
    `ApplicationSet`.
 
-3. **App of AppSets** — the `ApplicationSet` uses a `matrix` of two `git`
+4. **App of AppSets** — the `ApplicationSet` uses a `matrix` of two `git`
    generators over `apps/*/application.yaml` (one app per file) and
    `clusters/*/config.yaml` (one cluster per file). For every (app, cluster)
    pair it generates an `Application` named `<app>-<cluster>`.
 
-4. **Helm multi-source** — each generated `Application` pulls the Helm chart from
+5. **Helm multi-source** — each generated `Application` pulls the Helm chart from
    its Helm repo and the values from this repo via the `$values` ref:
    `values.yaml` (common) + `values-<environment>.yaml` (cluster override).
 

@@ -12,11 +12,13 @@ spec:
               revision: main
               files:
                 - path: apps/*/application.yaml
+              pathParamPrefix: app
           - git:
               repoURL: https://github.com/vikbaranov/argocd-gitops.git
               revision: main
               files:
                 - path: clusters/*/config.yaml
+              pathParamPrefix: cluster
   template:
     metadata:
       name: '{{appName}}-{{clusterName}}'
